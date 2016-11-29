@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>DonnY1i's Blog</title>
+	<link rel="stylesheet" href="../resource/bootstrap-3.3.7/css/bootstrap.css">
+	<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+	  <div class="container">
+	    <!-- Brand and toggle get grouped for better mobile display -->
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href="../index.html">DonnY1i</a>
+	    </div>
+
+	    <!-- Collect the nav links, forms, and other content for toggling -->
+	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	      <ul class="nav navbar-nav">
+	        <li class="active"><a href="#">Link</a></li>
+	        <li><a href="#">Link</a></li>
+	        <li class="dropdown">
+	          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+	          <ul class="dropdown-menu" role="menu">
+	            <li><a href="#">Action</a></li>
+	            <li><a href="#">Another action</a></li>
+	            <li><a href="#">Something else here</a></li>
+	            <li class="divider"></li>
+	            <li><a href="#">Separated link</a></li>
+	            <li class="divider"></li>
+	            <li><a href="#">One more separated link</a></li>
+	          </ul>
+	        </li>
+	      </ul>
+	      <ul class="nav navbar-nav navbar-right">
+	        <li class="dropdown">
+	          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user" style="margin-right: 1em"></span>联系我<span class="caret"></span></a>
+	          <ul class="dropdown-menu" role="menu">
+	            <li><a href="https://github.com/DonnY1i"><img id="github-icon" alt="Github" src="../resource/images/github.jpeg"><span>Github</span></a></li>
+	            <li class="divider"></li>
+	            <li><a href="http://weibo.com/2900625833/info"><img id="weibo-icon" alt="Weibo" src="../resource/images/weibo.png"><span>Weibo</span></a></li>
+	          </ul>
+	        </li>
+	      </ul>
+	    </div><!-- /.navbar-collapse -->
+	  </div><!-- /.container -->
+	</nav>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="panel panel-default article">
+					<div class="panel-title">
+						<ol class="breadcrumb">
+						  <li><a href="../index.html">Home</a></li>
+						  <li><a href="#">jQuery</a></li>
+						  <li class="active"></li>
+						</ol>
+					</div><!--panel.panel-title-->
+
+					<div class="panel-body">
+					    <h3 class="article-title">用原生JS和jQuery实现新手引导效果</h3>
+					    <p class="date">发布日期：2016-11-27</p>
+					    <div class="article-main">
+					    	<p class="p-text">在慕课网看到<a href="http://www.imooc.com/learn/14" target="_blank">这个教程</a>，分别用javascript和jQuery实现了新手引导效果，思路如下：</p>
+					    	<p>
+						    	<ol>
+						    		<li>
+						    			<strong>页面HTML结构</strong>
+						    			<p>页面结构十分简单，原本的网页通过为body加背景图片模拟，然后添加一个div作为蒙版，即新手引导效果出现时，一个挡住网页的半透明的容器，以突出引导内容。引导的图片也要事先加载入，但要将display属性设置为none，后续通过js来改变display属性让其显示出来。</p>
+						    			<code>
+						    				&lt;body&gt
+						    				<br>
+											&emsp;&emsp;&lt;div id="mask"&gt;&lt;/div&gt;
+											<br>
+											&emsp;&emsp;&lt;div id="searchTip"&gt;
+											<br>
+												&emsp;&emsp;&emsp;&emsp;&lt;div class="stepA">&lt;a&gt;下一步&lt;/a&gt;&lt;span title="关闭"&gt;&lt;/span&gt;&lt;/div&gt;
+												<br>
+												&emsp;&emsp;&emsp;&emsp;&lt;div class="stepB"&gt;&lt;a&gt;下一步&lt;/a&gt;&lt;span title="关闭"&gt;&lt;/span&gt;&lt;/div&gt;
+												<br>
+												&emsp;&emsp;&emsp;&emsp;&lt;div class="stepC"&gt;&lt;a&gt;下一步&lt;/a&gt;&lt;span title="关闭"&gt;&lt;/span&gt;&lt;/div&gt;
+												<br>
+												&emsp;&emsp;&emsp;&emsp;&lt;div class="stepD"&gt;&lt;a&gt;下一步&lt;/a&gt;&lt;span title="关闭"&gt;&lt;/span&gt;&lt;/div&gt;
+												<br>
+												&emsp;&emsp;&emsp;&emsp;&lt;div class="stepE"&gt;&lt;a&gt;下一步&lt;/a&gt;&lt;span title="关闭"&gt;&lt;/span&gt;&lt;/div&gt;
+												<br>
+											&emsp;&emsp;&lt;/div&gt;
+											<br>
+											&lt;/body&gt;
+						    			</code>
+										<br>
+										主要的样式：
+										<br>
+										<code>
+											html{
+												height: 100%;
+											}
+											<br>
+											body{
+												background: url(images/body.png) center top;
+												<br>
+												height: 100%;
+											}
+											<br>
+											#mask{
+												height: 100%;
+												width: 100%;
+												position: absolute;
+												top: 0;
+												left: 0;
+												background: #000;
+												opacity: 0.5;
+												display: none;
+											}
+											<br>
+											#searchTip{
+												width: 980px;
+												height: 800px;
+												position: absolute;
+												left: 50%;
+												margin-left: -490px;
+												display: none;
+											}
+											<br>
+											#searchTip div{
+												position: absolute;
+												display: none;
+											}
+										</code>
+									</li>
+									<li>
+										<strong>引导的每一步，用绝对定位定位在它们后续将出现的地方。</strong>
+										<br>
+										<code>
+										#searchTip div{position: absolute;display: none;}
+										<br>
+										.stepA{width: 745px;height: 329px;background: url(images/guide11.png);top: 131px;left: -9px;}
+										<br>
+										.stepB{ background:url(images/guide21.png); width:647px; height:405px;top:2px; left:324px}
+										<br>
+										.stepC{ background:url(images/guide31.png); width:654px; height:257px;top:294px; left:318px}
+										<br>
+										...
+										</code>
+						    		</li>
+						    		<li>
+						    			<strong>当首次访问时，让蒙板、容纳提示的容器和第一个提示内容显示。</strong>
+						    			<br>
+						    			<code>
+						    				var oMask = document.getElementById("mask");
+						    				<br>
+											var oSearch = document.getElementById("searchTip");
+											<br>
+											var aStep = oSearch.getElementsByTagName("div");
+											<br>
+											var aA = oSearch.getElementsByTagName("a");
+											<br>
+											var aClose = oSearch.getElementsByTagName("span");
+											<br><br>
+											aStep[0].style.display=oMask.style.display=oSearch.style.display="block";
+						    			</code>
+						    		</li>
+						    		<li>
+						    			<strong>为每一步提示的下一步按钮添加事件，让提示依次出现。最后一步的提示通过displasy属性按钮将蒙板和容器不再显示。</strong>
+						    			<br>
+						    			<code>
+						    				for(var i=0;i&lt;aStep.length;i++){
+						    				<br>
+											&emsp;aA[i].index=i;
+											<br>
+											&emsp;aA[i].onclick=function(){
+											<br>
+											&emsp;&emsp;this.parentNode.style.display="none";
+											<br>
+											&emsp;&emsp;&emsp;if(this.index&lt;(aStep.length-1)){
+											<br>
+											&emsp;&emsp;&emsp;&emsp;aStep[this.index+1].style.display="block";
+											<br>
+											&emsp;&emsp;&emsp;}
+											<br>
+											&emsp;&emsp;&emsp;else if(this.index==aStep.length-1){
+											<br>
+											&emsp;&emsp;&emsp;&emsp;oMask.style.display=oSearch.style.display="none";
+											<br>
+											&emsp;&emsp;&emsp;}
+											<br>
+											&emsp;}
+											<br>
+											}
+						    			</code>
+						    		</li>
+						    		<li>
+						    			<strong>为每一步提示的关闭按钮添加事件，通过display属性让蒙板和容器不再显示。</strong>
+						    			<br>
+						    			<code>
+						    				for(i=0;i&lt;aStep.length;i++){
+						    				<br>
+											&emsp;aClose[i].onclick=function(){
+											<br>
+											&emsp;&emsp;oMask.style.display=oSearch.style.display="none";
+											<br>
+											&emsp;}
+											<br>
+											}
+						    			</code>
+						    		</li>
+						    		<li>
+						    			<strong>为了实现用户首次访问才会出现新手引导，引入cookie，首次访问后写入。在程序一开始检查是否有cookie键值对。</strong>
+						    			<br>
+						    			<code>
+						    				//首次访问添加cookie
+						    				<br>
+											var oDate = new Date();
+											<br>
+											oDate.setDate(oDate.getDate()+30);
+											<br>
+											document.cookie="name=mycookie;expires="+oDate;
+						    			</code>
+						    			<code>
+						    				//读取cookie
+						    				<br>
+											var cookie=document.cookie.substring(5);
+											<br>
+											console.log(cookie);
+											<br>
+											//判断cookie是否存在
+											<br>
+											if(cookie!="mycookie"){
+											<br>
+											&emsp;...//省略了中间代码
+											<br>
+											}
+						    			</code>
+						    		</li>
+						    	</ol>
+						    </p>
+							<p>最终的代码我上传至github:<a href="https://github.com/DonnY1i/Dom-jQueryUserGuide" target="_blank">https://github.com/DonnY1i/Dom-jQueryUserGuide</a></p>
+							<p>也可通过githubPages查看效果<a href="https://donny1i.github.io/Dom-jQueryUserGuide/domindex.html" target="_blank">https://donny1i.github.io/Dom-jQueryUserGuide/domindex.html</a></p>
+							<p>jQuery版本，用jquery的遍历和show()、hide()方法代替控制css属性来实现</p>
+							<p>也可以在githubPages查看<a href="https://donny1i.github.io/Dom-jQueryUserGuide/jqueryindex.html" target="_blank">https://donny1i.github.io/Dom-jQueryUserGuide/jqueryindex.html</a></p>
+					    </div><!--article-main-->
+					</div><!--panel-body-->
+				</div><!--panel-->
+			</div><!--col-md-8-->
+			<div class="col-md-4">
+			<aside>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+    					<h3 class="panel-title"><span class="glyphicon glyphicon-user" style="margin-right: 1em"></span><span>关于本站</span></h3>
+					</div>
+  					<div class="panel-body">
+						<img src="../resource/images/wechat.jpg" alt="二维码" id="myWechat">
+  						<p id="about">这是一个程序员的独立博客站，主要用于分享与前端技术相关的内容,同时这里也是博主记录工作学习中遇到的问题及其解决方案的地方。很早就有写这样一个博客的计划，无奈一直拖延，至今终于着手。这是一个静态的博客，没有后台，采用Bootstrap框架搭建。希望可以不断完善，越来越好。</p>
+  					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title"><span class="glyphicon glyphicon-bookmark" style="margin-right: 1em"></span><span>文章分类</span></h3>
+					</div>
+					<div class="panel-body">
+						<p><a href="">HTML&amp;CSS</a></p>
+						<p><a href="">jQuery</a></p>
+						<p><a href="">Bootstrap</a></p>
+						<p><a href="">自动化工具</a></p>
+					</div>
+				</div>
+			</aside>
+			</div>
+		</div>
+		<p id="back-to-top"><a href="#top"><span></span>返回顶部</a></p>
+	</div>
+	<script src="../resource/jquery-3.1.1.js"></script>
+	<script src="../resource/bootstrap-3.3.7/js/bootstrap.js"></script>
+	<script>
+		$(function(){
+			$(window).scroll(function(){
+				if($(window).scrollTop()>100){
+					$('#back-to-top').fadeIn(1500);
+				}else{
+					$('#back-to-top').fadeOut(1500);
+				}
+			});
+			$('#back-to-top').click(function(){
+				$('body').animate({ scrollTop: 0 }, 1000);
+                return false;
+			});
+		});
+	</script>
+</body>
+</html>
