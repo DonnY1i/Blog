@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>DonnY1i's Blog</title>
+	<link rel="stylesheet" href="../resource/bootstrap-3.3.7/css/bootstrap.css">
+	<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+	  <div class="container">
+	    <!-- Brand and toggle get grouped for better mobile display -->
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href="../index.html">DonnY1i</a>
+	    </div>
+
+	    <!-- Collect the nav links, forms, and other content for toggling -->
+	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	      <ul class="nav navbar-nav">
+	        <li class="active"><a href="#">Link</a></li>
+	        <li><a href="#">Link</a></li>
+	        <li class="dropdown">
+	          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+	          <ul class="dropdown-menu" role="menu">
+	            <li><a href="#">Action</a></li>
+	            <li><a href="#">Another action</a></li>
+	            <li><a href="#">Something else here</a></li>
+	            <li class="divider"></li>
+	            <li><a href="#">Separated link</a></li>
+	            <li class="divider"></li>
+	            <li><a href="#">One more separated link</a></li>
+	          </ul>
+	        </li>
+	      </ul>
+	      <ul class="nav navbar-nav navbar-right">
+	        <li class="dropdown">
+	          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user" style="margin-right: 1em"></span>联系我<span class="caret"></span></a>
+	          <ul class="dropdown-menu" role="menu">
+	            <li><a href="https://github.com/DonnY1i"><img id="github-icon" alt="Github" src="../resource/images/github.jpeg"><span>Github</span></a></li>
+	            <li class="divider"></li>
+	            <li><a href="http://weibo.com/2900625833/info"><img id="weibo-icon" alt="Weibo" src="../resource/images/weibo.png"><span>Weibo</span></a></li>
+	          </ul>
+	        </li>
+	      </ul>
+	    </div><!-- /.navbar-collapse -->
+	  </div><!-- /.container -->
+	</nav>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="panel panel-default article">
+					<div class="panel-title">
+						<ol class="breadcrumb">
+						  <li><a href="../index.html">Home</a></li>
+						  <li><a href="#">jQuery</a></li>
+						  <li class="active"></li>
+						</ol>
+					</div><!--panel.panel-title-->
+
+					<div class="panel-body">
+					    <h3 class="article-title">javascript中this的指向</h3>
+					    <p class="date">发布日期：2016-12-1</p>
+					    <div class="article-main">
+					    	<p>在java等高级语言中，this的指向很明确，指向当前对象。但在javascript语言中，this的值是运行时，动态指定的。在我看来，大致分为以下几种情况：</p>
+					    	<p>
+						    	<ol>
+						    		<li>
+						    			<strong>this在构造函数中</strong>
+						    			<p>构造函数中的this指代实例函数，就是要构造的对象。</p>
+						    			<code>
+						    				function Person(name){
+						    				<br>
+						    				&emsp;&emsp;this.name = name;
+						    				<br>
+						    				}
+						    				<br>
+						    				var a = new Person('a');
+						    			</code>
+										<br>
+										构造函数Person()中，this指代的就是新构造的对象,新构造的对象会被添加一个name属性，并将传递的参数赋予它。但有一种例外情况：
+										<br>
+										<code>
+											var name = 'b';
+											function Person(name){
+						    				<br>
+						    				&emsp;&emsp;this.name = name;
+						    				<br>
+						    				}
+						    				<br>
+						    				Person('a');
+						    				<br>
+						    				console.log(name);//b
+										</code>
+										<br>
+										构造函数作为一种函数，可以被直接调用，如上述代码中，直接调用Person()函数，this将指向window对象，此时全局变量name被赋予新的值。
+									</li>
+									<li>
+										<strong>this在对象的方法中</strong>
+										<p>对象方法中的this指向实例对象。</p>
+										<br>
+										<code>
+											var o = {
+											<br>
+											&emsp;name:'a',
+											<br>
+											&emsp;sayName:function(){
+											<br>
+											&emsp;&emsp;console.log(this.name);
+											<br>
+											&emsp;}
+											<br>
+											}
+										</code>
+										<br>
+										sayName()是对象o的一个方法，其中的this指向o。
+						    		</li>
+						    		<li>
+						    			<strong>运用apply(),call()方法</strong>
+						    			<br>
+						    			<code>
+						    				var o = {name:'a'},name = 'b';
+						    				<br>
+						    				function sayName(){
+						    				<br>
+						    				&emsp;console.log(this.name);
+						    				<br>
+						    				}
+						    				<br>
+						    				sayName();//b
+						    				<br>
+						    				sayName.apply(o);//a
+						    				sayName.call(o);//a
+						    			</code>
+						    			<br>
+						    			sayName()方法中的this，如果直接调用，this指向window。通过apply()、call()可以改变this的指向，让this指向第一个参数。
+						    		</li>
+						    		<li>
+						    			<strong>this在闭包中</strong>
+						    			<br>
+						    			<code>
+						    				var name = 'b';
+						    				<br>
+						    				var o = {
+						    				<br>
+						    				&emsp;name:'a',
+						    				<br>
+						    				&emsp;sayName:function(){
+						    				<br>
+						    				&emsp;&emsp;function log(){
+						    				<br>
+											&emsp;&emsp;&emsp;console.log(this.name);//b
+											<br>
+						    				&emsp;&emsp;}
+						    				<br>
+						    				&emsp;&emsp;log();
+						    				<br>
+						    				&emsp;}
+						    				<br>
+						    				};
+						    				<br>
+						    				o.sayName();
+						    			</code>
+						    			<br>
+						    			在这种情况中，this指向window，所以如果有闭包，要在闭包内部访问外部的对象，最好在外层函数定义一个变量来保存this的值。
+						    		</li>
+						    		<li>
+						    			<strong>this在以参数形式传递的函数中。</strong>
+						    			<p>在以参数形式传递的函数中，this通常都有特定的指向。</p>
+						    			<code>
+						    				$('p').click(function(){
+						    					this.text('click');
+						    				});
+						    			</code>
+						    			<br>
+						    			例如在jQuery的时间绑定函数中，以参数形式传递的匿名函数中的this指向被选中的jQuery对象。
+						    		</li>
+						    	</ol>
+						    </p>
+							<p>总之，this的指向情况很复杂，但有一个原则：方法是谁调用的，this就指向谁，与方法所属的对象无关。</p>
+					    </div><!--article-main-->
+					</div><!--panel-body-->
+				</div><!--panel-->
+			</div><!--col-md-8-->
+			<div class="col-md-4">
+			<aside>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+    					<h3 class="panel-title"><span class="glyphicon glyphicon-user" style="margin-right: 1em"></span><span>关于本站</span></h3>
+					</div>
+  					<div class="panel-body">
+						<img src="../resource/images/wechat.jpg" alt="二维码" id="myWechat">
+  						<p id="about">这是一个程序员的独立博客站，主要用于分享与前端技术相关的内容,同时这里也是博主记录工作学习中遇到的问题及其解决方案的地方。很早就有写这样一个博客的计划，无奈一直拖延，至今终于着手。这是一个静态的博客，没有后台，采用Bootstrap框架搭建。希望可以不断完善，越来越好。</p>
+  					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title"><span class="glyphicon glyphicon-bookmark" style="margin-right: 1em"></span><span>文章分类</span></h3>
+					</div>
+					<div class="panel-body">
+						<p><a href="">HTML&amp;CSS</a></p>
+						<p><a href="">jQuery</a></p>
+						<p><a href="">Bootstrap</a></p>
+						<p><a href="">自动化工具</a></p>
+					</div>
+				</div>
+			</aside>
+			</div>
+		</div>
+		<p id="back-to-top"><a href="#top"><span></span>返回顶部</a></p>
+	</div>
+	<script src="../resource/jquery-3.1.1.js"></script>
+	<script src="../resource/bootstrap-3.3.7/js/bootstrap.js"></script>
+	<script>
+		$(function(){
+			$(window).scroll(function(){
+				if($(window).scrollTop()>100){
+					$('#back-to-top').fadeIn(1500);
+				}else{
+					$('#back-to-top').fadeOut(1500);
+				}
+			});
+			$('#back-to-top').click(function(){
+				$('body').animate({ scrollTop: 0 }, 1000);
+                return false;
+			});
+		});
+	</script>
+</body>
+</html>
